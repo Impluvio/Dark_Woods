@@ -408,7 +408,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 765040165}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 017c5e3933235514c9520e1dace2a4b2, type: 3}
   m_Name: 
@@ -460,23 +460,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6836b9fa565a12a48ac3e13d801f1ff6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tapAction:
-    m_Name: Tap
-    m_Type: 0
-    m_ExpectedControlType: Vector2
-    m_Id: 62654a99-4247-4bdb-bfe9-f0e2c230e9d5
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings:
-    - m_Name: 
-      m_Id: cabce32d-0ad5-433d-b46e-f1ff445b3219
-      m_Path: <Pointer>/{Point}
-      m_Interactions: Tap
-      m_Processors: 
-      m_Groups: 
-      m_Action: Tap
-      m_Flags: 0
-    m_Flags: 0
   rayCastManager: {fileID: 765040166}
   planeManager: {fileID: 765040167}
   arCamera: {fileID: 2130083765}
@@ -688,9 +671,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0cb9aa70a22847b5925ee5f067c10a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Camera: {fileID: 0}
+  m_Camera: {fileID: 2130083765}
   m_OriginBaseGameObject: {fileID: 1188574995}
-  m_CameraFloorOffsetObject: {fileID: 0}
+  m_CameraFloorOffsetObject: {fileID: 1874464397}
   m_RequestedTrackingOriginMode: 1
   m_CameraYOffset: 1.1176
 --- !u!114 &1188575001

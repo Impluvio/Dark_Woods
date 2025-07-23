@@ -7,12 +7,17 @@ using UnityEngine.XR.ARSubsystems;
 
 public class PlaneSelector : MonoBehaviour
 {
-    private InputAction tapAction;
+    
     public ARRaycastManager rayCastManager;
     public ARPlaneManager planeManager;
+    public ARAnchorManager anchorManager;
+
+    private InputAction tapAction;
     public Camera arCamera;
     private PrintPlaneID printPlaneID;
-    private GameObject mainCanvas;
+    private ARAnchor playAreaAnchor;
+
+    private bool playAreaSelected = false;
 
     private List<ARRaycastHit> hits = new();
 
@@ -56,17 +61,40 @@ public class PlaneSelector : MonoBehaviour
             return;
         }
 
+        //Sets the anchor and sets play area to true.
 
-
-        if (rayCastManager.Raycast(screenPosition, hits, TrackableType.Planes))
+        if (rayCastManager.Raycast(screenPosition, hits, TrackableType.Planes) && !playAreaSelected)
         {
             ARRaycastHit hit = hits[0];
             TrackableId planeID = hit.trackableId;
 
-            printPlaneID.PrintMessage(planeID.ToString());
-            
+            if (planeManager.trackables.TryGetTrackable(planeID, out ARPlane plane))
+            {
+                Vector3 centrePosition = plane.transform.position + (Vector3)plane.center;
+                Pose centerPose = new Pose(centrePosition, plane.transform.rotation);
 
+                playAreaAnchor = anchorManager.AttachAnchor(plane, centerPose);
 
+                if (playAreaAnchor != null)
+                {
+                    playAreaSelected = true;
+                    printPlaneID.PrintMessage(playAreaAnchor.transform.ToString());
+                    //call main logic process from here.
+                }
+
+            }
+
+            // DEBUGING: printPlaneID.PrintMessage(planeID.ToString());
+
+            //Pose pose = hit.pose;
+            //Vector3 center = plane.center;
+            //Quaternion rotation = plane.transform.rotation;
+            //Vector3 size = plane.size;
+
+        }
+        else
+        {
+            printPlaneID.PrintMessage("plane or planeID not found");
         }
     }
 }
