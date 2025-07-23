@@ -359,6 +359,7 @@ GameObject:
   - component: {fileID: 765040167}
   - component: {fileID: 765040166}
   - component: {fileID: 765040171}
+  - component: {fileID: 765040172}
   m_Layer: 0
   m_Name: XR Origin (Mobile AR)
   m_TagString: Untagged
@@ -407,7 +408,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 765040165}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 017c5e3933235514c9520e1dace2a4b2, type: 3}
   m_Name: 
@@ -469,7 +470,7 @@ MonoBehaviour:
     m_SingletonActionBindings:
     - m_Name: 
       m_Id: cabce32d-0ad5-433d-b46e-f1ff445b3219
-      m_Path: <Touchscreen>/primaryTouch
+      m_Path: <Pointer>/{Point}
       m_Interactions: Tap
       m_Processors: 
       m_Groups: 
@@ -477,9 +478,21 @@ MonoBehaviour:
       m_Flags: 0
     m_Flags: 0
   rayCastManager: {fileID: 765040166}
+  planeManager: {fileID: 765040167}
   arCamera: {fileID: 2130083765}
-  printPlaneID: {fileID: 0}
-  mainCanvas: {fileID: 0}
+--- !u!114 &765040172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 765040165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af8c276c3afc78e4fa3b0102f14d02bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  outputTextField: {fileID: 430729844}
 --- !u!1 &1047299920
 GameObject:
   m_ObjectHideFlags: 0
@@ -548,11 +561,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
-  m_ScreenMatchMode: 0
+  m_ReferenceResolution: {x: 1980, y: 1080}
+  m_ScreenMatchMode: 1
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
@@ -568,10 +581,10 @@ Canvas:
   m_GameObject: {fileID: 1047299920}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
+  m_RenderMode: 1
   m_Camera: {fileID: 0}
   m_PlaneDistance: 100
-  m_PixelPerfect: 0
+  m_PixelPerfect: 1
   m_ReceivesEvents: 1
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
@@ -678,7 +691,7 @@ MonoBehaviour:
   m_Camera: {fileID: 0}
   m_OriginBaseGameObject: {fileID: 1188574995}
   m_CameraFloorOffsetObject: {fileID: 0}
-  m_RequestedTrackingOriginMode: 0
+  m_RequestedTrackingOriginMode: 1
   m_CameraYOffset: 1.1176
 --- !u!114 &1188575001
 MonoBehaviour:

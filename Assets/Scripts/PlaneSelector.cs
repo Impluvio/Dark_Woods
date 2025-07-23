@@ -7,7 +7,7 @@ using UnityEngine.XR.ARSubsystems;
 
 public class PlaneSelector : MonoBehaviour
 {
-    public InputAction tapAction;
+    private InputAction tapAction;
     public ARRaycastManager rayCastManager;
     public ARPlaneManager planeManager;
     public Camera arCamera;
@@ -18,8 +18,11 @@ public class PlaneSelector : MonoBehaviour
 
     private void Awake()
     {
-        mainCanvas = GameObject.Find("MainCanvas");
-        printPlaneID = mainCanvas.GetComponent<PrintPlaneID>();
+        
+        printPlaneID = GetComponent<PrintPlaneID>();
+        tapAction = new InputAction(type: InputActionType.PassThrough);
+        tapAction.AddBinding("<Touchscreen>/primaryTouch/press");
+        tapAction.AddBinding("<Mouse>/leftButton");
     }
 
     private void OnEnable()
@@ -36,7 +39,24 @@ public class PlaneSelector : MonoBehaviour
 
     public void onTapPerformed(InputAction.CallbackContext context)
     {
-        Vector2 screenPosition = context.ReadValue<Vector2>();
+        Debug.Log("tap performed");
+
+        Vector2 screenPosition;
+
+        if (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.isPressed)
+        {
+            screenPosition = Touchscreen.current.primaryTouch.position.ReadValue();
+        }
+        else if (Mouse.current != null && Mouse.current.leftButton.isPressed)
+        {
+            screenPosition = Mouse.current.position.ReadValue();
+        }
+        else
+        {
+            return;
+        }
+
+
 
         if (rayCastManager.Raycast(screenPosition, hits, TrackableType.Planes))
         {
