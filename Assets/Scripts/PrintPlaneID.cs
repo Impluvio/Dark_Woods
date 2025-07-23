@@ -7,9 +7,15 @@ public class PrintPlaneID : MonoBehaviour
 
     //quick test of the plane id output
 
+    string output = "Output: ";
+
     public void PrintMessage(string message)
     {
-        outputTextField.text = message;
+      
+        output = output + "\n" + message;
+        outputTextField.text = output;
+
+
     }
 
 }

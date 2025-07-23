@@ -67,34 +67,39 @@ public class PlaneSelector : MonoBehaviour
         {
             ARRaycastHit hit = hits[0];
             TrackableId planeID = hit.trackableId;
+            
 
             if (planeManager.trackables.TryGetTrackable(planeID, out ARPlane plane))
             {
-                Vector3 centrePosition = plane.transform.position + (Vector3)plane.center;
-                Pose centerPose = new Pose(centrePosition, plane.transform.rotation);
+                Vector3 worldCentre = plane.transform.TransformPoint(plane.center);
+                Pose centerPose = new Pose(worldCentre, plane.transform.rotation);
+
+
+                printPlaneID.PrintMessage("plane centre: " + worldCentre.ToString());
+                printPlaneID.PrintMessage("plane ID: " + planeID.ToString());
+                printPlaneID.PrintMessage("plane pos: " + plane.center.ToString());
+
+
 
                 playAreaAnchor = anchorManager.AttachAnchor(plane, centerPose);
+
+                printPlaneID.PrintMessage("Anchor placement method passed");
 
                 if (playAreaAnchor != null)
                 {
                     playAreaSelected = true;
-                    printPlaneID.PrintMessage(playAreaAnchor.transform.ToString());
+                    printPlaneID.PrintMessage("Anchor Set");
+                    //printPlaneID.PrintMessage(playAreaAnchor.transform.ToString());
                     //call main logic process from here.
                 }
-
+                else
+                {
+                    printPlaneID.PrintMessage("plane or planeID not found");
+                }
             }
 
-            // DEBUGING: printPlaneID.PrintMessage(planeID.ToString());
-
-            //Pose pose = hit.pose;
-            //Vector3 center = plane.center;
-            //Quaternion rotation = plane.transform.rotation;
-            //Vector3 size = plane.size;
-
+           
         }
-        else
-        {
-            printPlaneID.PrintMessage("plane or planeID not found");
-        }
+        
     }
 }
