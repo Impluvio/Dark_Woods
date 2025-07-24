@@ -79,8 +79,6 @@ public class PlaneSelector : MonoBehaviour
                 printPlaneID.PrintMessage("plane ID: " + planeID.ToString());
                 printPlaneID.PrintMessage("plane pos: " + plane.center.ToString());
 
-
-
                 playAreaAnchor = anchorManager.AttachAnchor(plane, centerPose);
 
                 printPlaneID.PrintMessage("Anchor placement method passed");
