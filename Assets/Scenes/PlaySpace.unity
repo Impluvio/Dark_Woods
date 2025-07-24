@@ -740,6 +740,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86a470678354a6f438a06f997f687e55, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  prefabList:
+  - {fileID: 93081633731965757, guid: b16224814a7abe044a7ed69c01a97723, type: 3}
 --- !u!114 &1676990648
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -752,7 +754,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 586dd8b1b2fa9b241927817a438426ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mapSize: 0
+  setTilePrefab: {fileID: 1676990647}
+  mapSize: 10
 --- !u!4 &1676990649
 Transform:
   m_ObjectHideFlags: 0

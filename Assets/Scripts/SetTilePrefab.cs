@@ -1,12 +1,14 @@
 using UnityEngine;
+using System;
+using System.Collections.Generic;
 
 public class SetTilePrefab : MonoBehaviour
 {
-    // create list of prefabs
+    public List<GameObject> prefabList;
 
     public void setPrefabForTile(GameTile tileToSet)
     {
-        tileToSet.tilePrefab =
+        tileToSet.tilePrefab = prefabList[0];
     }
 
 }
