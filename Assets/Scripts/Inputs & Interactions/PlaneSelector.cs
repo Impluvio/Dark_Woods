@@ -14,8 +14,10 @@ public class PlaneSelector : MonoBehaviour
 
     private InputAction tapAction;
     public Camera arCamera;
-    private PrintPlaneID printPlaneID;
     private ARAnchor playAreaAnchor;
+
+    private PrintPlaneID printPlaneID;
+    private MapCreator mapCreator;
 
     private bool playAreaSelected = false;
 
@@ -23,7 +25,7 @@ public class PlaneSelector : MonoBehaviour
 
     private void Awake()
     {
-        
+        mapCreator = GetComponent<MapCreator>();
         printPlaneID = GetComponent<PrintPlaneID>();
         tapAction = new InputAction(type: InputActionType.PassThrough);
         tapAction.AddBinding("<Touchscreen>/primaryTouch/press");
@@ -44,7 +46,7 @@ public class PlaneSelector : MonoBehaviour
 
     public void onTapPerformed(InputAction.CallbackContext context)
     {
-        Debug.Log("tap performed");
+       // Debug.Log("tap performed");
 
         Vector2 screenPosition;
 
@@ -75,18 +77,40 @@ public class PlaneSelector : MonoBehaviour
                 Pose centerPose = new Pose(worldCentre, plane.transform.rotation);
 
 
-                printPlaneID.PrintMessage("plane centre: " + worldCentre.ToString());
-                printPlaneID.PrintMessage("plane ID: " + planeID.ToString());
-                printPlaneID.PrintMessage("plane pos: " + plane.center.ToString());
+                //printPlaneID.PrintMessage("plane centre: " + worldCentre.ToString());
+                //printPlaneID.PrintMessage("plane ID: " + planeID.ToString());
+                //printPlaneID.PrintMessage("plane pos: " + plane.center.ToString());
 
                 playAreaAnchor = anchorManager.AttachAnchor(plane, centerPose);
 
-                printPlaneID.PrintMessage("Anchor placement method passed");
+               // printPlaneID.PrintMessage("Anchor placement method passed");
 
-                if (playAreaAnchor != null)
+                //if (mapCreator == null)
+                //{
+                //    Debug.Log("map creator null");
+                //}
+                //else if (mapCreator.worldOrigin == null)
+                //{
+                //    Debug.Log("world origin null");
+                //}
+                //else if (playAreaAnchor == null)
+                //{
+                //    Debug.Log("PlayerAreaAnchor is null");
+                //}
+
+
+
+                if (playAreaAnchor != null )
                 {
+                    printPlaneID.PrintMessage("Anchor not set to null");
+                    printPlaneID.PrintMessage("Transform of anchor:" + playAreaAnchor.transform.position);
+
                     playAreaSelected = true;
+                    mapCreator.worldOrigin = playAreaAnchor;
+                    printPlaneID.PrintMessage("world origin: " + mapCreator.worldOrigin.transform.position);
+                    mapCreator.updateMap();
                     printPlaneID.PrintMessage("Anchor Set");
+                    
                     //printPlaneID.PrintMessage(playAreaAnchor.transform.ToString());
                     //call main logic process from here.
                 }

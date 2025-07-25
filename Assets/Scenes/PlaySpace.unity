@@ -755,6 +755,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   setTilePrefab: {fileID: 1676990647}
+  printPlaneID: {fileID: 765040172}
   mapSize: 10
 --- !u!4 &1676990649
 Transform:
