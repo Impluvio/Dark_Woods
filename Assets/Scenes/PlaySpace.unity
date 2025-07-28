@@ -355,12 +355,12 @@ GameObject:
   m_Component:
   - component: {fileID: 765040170}
   - component: {fileID: 765040169}
-  - component: {fileID: 765040168}
   - component: {fileID: 765040167}
   - component: {fileID: 765040166}
+  - component: {fileID: 765040173}
+  - component: {fileID: 765040168}
   - component: {fileID: 765040171}
   - component: {fileID: 765040172}
-  - component: {fileID: 765040173}
   m_Layer: 0
   m_Name: XR Origin (Mobile AR)
   m_TagString: Untagged
@@ -465,6 +465,8 @@ MonoBehaviour:
   planeManager: {fileID: 765040167}
   anchorManager: {fileID: 765040173}
   arCamera: {fileID: 2130083765}
+  mapCreator: {fileID: 1676990648}
+  cubeTest: {fileID: 93081633731965757, guid: b16224814a7abe044a7ed69c01a97723, type: 3}
 --- !u!114 &765040172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -756,7 +758,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   setTilePrefab: {fileID: 1676990647}
   printPlaneID: {fileID: 765040172}
-  mapSize: 10
+  anchorManager: {fileID: 765040173}
+  mapSize: 12
 --- !u!4 &1676990649
 Transform:
   m_ObjectHideFlags: 0

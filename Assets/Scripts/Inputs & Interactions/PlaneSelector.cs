@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -17,15 +18,16 @@ public class PlaneSelector : MonoBehaviour
     private ARAnchor playAreaAnchor;
 
     private PrintPlaneID printPlaneID;
-    private MapCreator mapCreator;
+    public MapCreator mapCreator;
 
     private bool playAreaSelected = false;
 
     private List<ARRaycastHit> hits = new();
 
+    public GameObject cubeTest;
+
     private void Awake()
     {
-        mapCreator = GetComponent<MapCreator>();
         printPlaneID = GetComponent<PrintPlaneID>();
         tapAction = new InputAction(type: InputActionType.PassThrough);
         tapAction.AddBinding("<Touchscreen>/primaryTouch/press");
@@ -46,8 +48,6 @@ public class PlaneSelector : MonoBehaviour
 
     public void onTapPerformed(InputAction.CallbackContext context)
     {
-       // Debug.Log("tap performed");
-
         Vector2 screenPosition;
 
         if (Touchscreen.current != null && Touchscreen.current.primaryTouch.press.isPressed)
@@ -69,59 +69,53 @@ public class PlaneSelector : MonoBehaviour
         {
             ARRaycastHit hit = hits[0];
             TrackableId planeID = hit.trackableId;
-            
 
             if (planeManager.trackables.TryGetTrackable(planeID, out ARPlane plane))
             {
                 Vector3 worldCentre = plane.transform.TransformPoint(plane.center);
                 Pose centerPose = new Pose(worldCentre, plane.transform.rotation);
 
-
-                //printPlaneID.PrintMessage("plane centre: " + worldCentre.ToString());
-                //printPlaneID.PrintMessage("plane ID: " + planeID.ToString());
-                //printPlaneID.PrintMessage("plane pos: " + plane.center.ToString());
-
-                playAreaAnchor = anchorManager.AttachAnchor(plane, centerPose);
-
-               // printPlaneID.PrintMessage("Anchor placement method passed");
-
-                //if (mapCreator == null)
-                //{
-                //    Debug.Log("map creator null");
-                //}
-                //else if (mapCreator.worldOrigin == null)
-                //{
-                //    Debug.Log("world origin null");
-                //}
-                //else if (playAreaAnchor == null)
-                //{
-                //    Debug.Log("PlayerAreaAnchor is null");
-                //}
+                AttachAnchor(anchorManager, plane, centerPose);
+                printPlaneID.PrintMessage("Transform of anchor:" + playAreaAnchor.transform.position);
+                GameObject testCube = Instantiate(cubeTest, playAreaAnchor.transform);
 
 
 
-                if (playAreaAnchor != null )
-                {
-                    printPlaneID.PrintMessage("Anchor not set to null");
-                    printPlaneID.PrintMessage("Transform of anchor:" + playAreaAnchor.transform.position);
-
-                    playAreaSelected = true;
-                    mapCreator.worldOrigin = playAreaAnchor;
-                    printPlaneID.PrintMessage("world origin: " + mapCreator.worldOrigin.transform.position);
-                    mapCreator.updateMap();
-                    printPlaneID.PrintMessage("Anchor Set");
-                    
-                    //printPlaneID.PrintMessage(playAreaAnchor.transform.ToString());
-                    //call main logic process from here.
-                }
-                else
-                {
-                    printPlaneID.PrintMessage("plane or planeID not found");
-                }
             }
 
-           
+
         }
-        
+
     }
+
+     void AttachAnchor(ARAnchorManager arAnchorManager, ARPlane plane, Pose pose)
+    {
+        if (arAnchorManager.descriptor.supportsTrackableAttachments)
+        {
+            playAreaAnchor = arAnchorManager.AttachAnchor(plane, pose);
+            return;
+        }
+
+    }
+
+    public void OnTrackablesChanged(ARTrackablesChangedEventArgs<ARAnchor> changes)
+    {
+        foreach (var anchor in changes.added)
+        {
+            printPlaneID.PrintMessage("AnchorID: " + anchor.trackableId + "Anchor Position: " + anchor.transform.position);
+
+        }
+
+        foreach (var anchor in changes.updated)
+        {
+            printPlaneID.PrintMessage("AnchorID: " + anchor.trackableId + "Anchor Position Updated: " + anchor.transform.position);
+        }
+
+        foreach (var anchor in changes.removed)
+        {
+            printPlaneID.PrintMessage("AnchorID Removed");
+        }
+    }
+
+
 }

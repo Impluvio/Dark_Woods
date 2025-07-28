@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
@@ -13,25 +14,27 @@ public class MapCreator : MonoBehaviour
 
     public SetTilePrefab setTilePrefab;
     public PrintPlaneID printPlaneID;
+
+    public ARAnchorManager anchorManager;
     public ARAnchor worldOrigin { get; set; }
 
-    [Range(10,200)] public int mapSize; // sets grid size
+    [Range(10, 200)] public int mapSize = 10; // sets grid size
     GameTile[,] mapGrid;                // stores instances of the gameTile asset
 
 
     private void Awake()
     {
         setTilePrefab = GetComponent<SetTilePrefab>();  // Grabs the setTile script
-        printPlaneID = GetComponent<PrintPlaneID>(); 
+        printPlaneID = GetComponent<PrintPlaneID>();
     }
 
-    void Start()
+    public void InitialiseMap(ARAnchor anchor)
     {
+        worldOrigin = anchor;
         setGrid(mapSize);
-
+        StartCoroutine(DelayedUpdate());
+        //updateMap();
     }
-
-
 
     private void setGrid(int sizeOfMap)
     {
@@ -54,28 +57,39 @@ public class MapCreator : MonoBehaviour
 
     public void updateMap()
     {
-        printPlaneID.PrintMessage("Update map met");
-
-        if (worldOrigin == null || worldOrigin.transform == null)
-        {
-            
-            return;
-        }
+        //printPlaneID.PrintMessage(worldOrigin.transform.position);
 
 
-        
-        foreach (GameTile gameTile in mapGrid)        
-        {
-            Vector3 AdjustedCoordinates = worldOrigin.transform.position + new Vector3(gameTile.tilePosition.x, gameTile.tilePosition.y, 0);
-            Instantiate(gameTile.tilePrefab, AdjustedCoordinates, worldOrigin.transform.rotation);
-        }
+
+
+        //foreach (GameTile gameTile in mapGrid)        
+        //{
+        //    Vector3 AdjustedCoordinates = worldOrigin.transform.position + new Vector3(gameTile.tilePosition.x, 0, gameTile.tilePosition.y);
+        //    Instantiate(gameTile.tilePrefab, AdjustedCoordinates, worldOrigin.transform.rotation);
+        //}
     }
 
-
-
-    // Update is called once per frame
-    void Update()
+    private IEnumerator DelayedUpdate()
     {
-        
+        // wait two frames instead of one, just to be safe
+        yield return null;
+        yield return null;
+
+        if (worldOrigin == null)
+        {
+            Debug.LogError("worldOrigin is STILL null!");
+            yield break;
+        }
+
+        if (worldOrigin.transform == null)
+        {
+            Debug.LogError("worldOrigin.transform is null!");
+            yield break;
+        }
+
+        updateMap();
     }
+
+
+
 }
