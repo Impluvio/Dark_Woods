@@ -15,11 +15,15 @@ public class MapCreator : MonoBehaviour
     public SetTilePrefab setTilePrefab;
     public PrintPlaneID printPlaneID;
 
-    public ARAnchorManager anchorManager;
-    public GameObject worldOrigin { get; set; }
+    public ARAnchorManager anchorManager; // is this required?
+    public ARAnchor origin;
 
-    [Range(10, 200)] public int mapSize = 10; // sets grid size
-    GameTile[,] mapGrid;                // stores instances of the gameTile asset
+    [SerializeField] private GameObject gridManagerPrefab; //takes the prefab parent of the grid
+    private GameObject atlas; //
+    private GameObject baseTile; 
+
+    [Range(10, 400)] public int mapSize = 10;   // sets grid size
+    GameTile[,] mapGrid;                        // stores instances of the gameTile asset
 
 
     private void Awake()
@@ -28,30 +32,26 @@ public class MapCreator : MonoBehaviour
         printPlaneID = GetComponent<PrintPlaneID>();
     }
 
-    public void InitialiseMap(GameObject origin)
+    public void InitialiseMap(TrackableId playAreaID)
     {
-        //if (origin == null)
-        //{
-        //    Debug.LogError("InitialiseMap was called with a null origin!");
-        //    return;
-        //}
+        Debug.Log(playAreaID.ToString());
+        ARAnchor origin = anchorManager.GetAnchor(playAreaID);
+        atlas = Instantiate(gridManagerPrefab, origin.transform); //sets the parent for the grid/map.
+        setGrid(mapSize);
+        PopulateAtlas(atlas);
+        updateMap();
 
-        //worldOrigin = origin;
-        //printPlaneID.PrintMessage(worldOrigin.transform.position.ToString());
-
-        //worldOrigin = origin;
 
         //printPlaneID.PrintMessage(worldOrigin.transform.position.ToString());
-        //setGrid(mapSize);
-        //StartCoroutine(DelayedUpdate());
-        //updateMap();
+        //
+
+
     }
 
-    public void testPass (String message)
+    private void PopulateAtlas(GameObject atlas)
     {
-        Debug.Log(message);
+        
     }
-
 
     private void setGrid(int sizeOfMap)
     {
@@ -66,7 +66,7 @@ public class MapCreator : MonoBehaviour
                 newTileInstance.name = tileName;
                 mapGrid[i, j] = newTileInstance;
                 setTilePrefab.setPrefabForTile(newTileInstance); // this needs to instantiate acounting for the anchor position.
-
+                Debug.Log("tile created: " + tileName);
             }
         }
 
@@ -75,37 +75,16 @@ public class MapCreator : MonoBehaviour
     public void updateMap()
     {
         //printPlaneID.PrintMessage(worldOrigin.transform.position);
-
-
-
-
-        //foreach (GameTile gameTile in mapGrid)        
-        //{
-        //    Vector3 AdjustedCoordinates = worldOrigin.transform.position + new Vector3(gameTile.tilePosition.x, 0, gameTile.tilePosition.y);
-        //    Instantiate(gameTile.tilePrefab, AdjustedCoordinates, worldOrigin.transform.rotation);
-        //}
+        foreach (GameTile gameTile in mapGrid)
+        {
+            Vector3 AdjustedCoordinates = new Vector3(gameTile.tilePosition.x / 10, 0, gameTile.tilePosition.y / 10);
+            Debug.Log($"tile poisiton: {AdjustedCoordinates.ToString()}");
+            
+            Instantiate(atlas, AdjustedCoordinates, Quaternion.identity);
+        }
     }
 
-    private IEnumerator DelayedUpdate()
-    {
-        // wait two frames instead of one, just to be safe
-        yield return null;
-        yield return null;
-
-        if (worldOrigin == null)
-        {
-            Debug.LogError("worldOrigin is STILL null!");
-            yield break;
-        }
-
-        if (worldOrigin.transform == null)
-        {
-            Debug.LogError("worldOrigin.transform is null!");
-            yield break;
-        }
-
-        updateMap();
-    }
+    
 
 
 

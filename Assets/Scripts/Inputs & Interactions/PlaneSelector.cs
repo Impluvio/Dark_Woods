@@ -24,7 +24,7 @@ public class PlaneSelector : MonoBehaviour
 
     private List<ARRaycastHit> hits = new();
 
-    public GameObject cubeTest;
+    
     public GameObject origin { get; set; } 
 
     private void Awake()
@@ -69,6 +69,7 @@ public class PlaneSelector : MonoBehaviour
         if (rayCastManager.Raycast(screenPosition, hits, TrackableType.Planes) && !playAreaSelected)
         {
             ARRaycastHit hit = hits[0];
+
             TrackableId planeID = hit.trackableId;
 
             if (planeManager.trackables.TryGetTrackable(planeID, out ARPlane plane))
@@ -78,9 +79,8 @@ public class PlaneSelector : MonoBehaviour
 
                 AttachAnchor(anchorManager, plane, centerPose);
                 //printPlaneID.PrintMessage("Transform of anchor:" + playAreaAnchor.transform.position);
-                origin = Instantiate(cubeTest, playAreaAnchor.transform);
-                //mapCreator.InitialiseMap(origin);
-                mapCreator.testPass("boogie");
+                TrackableId playAreaID = playAreaAnchor.trackableId;
+                mapCreator.InitialiseMap(playAreaID);
                 playAreaSelected = true;
 
             }
@@ -92,9 +92,8 @@ public class PlaneSelector : MonoBehaviour
         if (arAnchorManager.descriptor.supportsTrackableAttachments)
         {
             playAreaAnchor = arAnchorManager.AttachAnchor(plane, pose);
-            return;
+            
         }
-
     }
 
 

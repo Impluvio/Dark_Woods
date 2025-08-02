@@ -466,7 +466,6 @@ MonoBehaviour:
   anchorManager: {fileID: 765040173}
   arCamera: {fileID: 2130083765}
   mapCreator: {fileID: 1676990648}
-  cubeTest: {fileID: 93081633731965757, guid: b16224814a7abe044a7ed69c01a97723, type: 3}
 --- !u!114 &765040172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -759,6 +758,9 @@ MonoBehaviour:
   setTilePrefab: {fileID: 1676990647}
   printPlaneID: {fileID: 765040172}
   anchorManager: {fileID: 765040173}
+  origin: {fileID: 0}
+  gridManagerPrefab: {fileID: 93081633731965757, guid: b16224814a7abe044a7ed69c01a97723,
+    type: 3}
   mapSize: 12
 --- !u!4 &1676990649
 Transform:
