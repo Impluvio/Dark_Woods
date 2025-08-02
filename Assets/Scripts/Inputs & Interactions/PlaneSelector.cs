@@ -25,6 +25,7 @@ public class PlaneSelector : MonoBehaviour
     private List<ARRaycastHit> hits = new();
 
     public GameObject cubeTest;
+    public GameObject origin { get; set; } 
 
     private void Awake()
     {
@@ -76,16 +77,14 @@ public class PlaneSelector : MonoBehaviour
                 Pose centerPose = new Pose(worldCentre, plane.transform.rotation);
 
                 AttachAnchor(anchorManager, plane, centerPose);
-                printPlaneID.PrintMessage("Transform of anchor:" + playAreaAnchor.transform.position);
-                GameObject testCube = Instantiate(cubeTest, playAreaAnchor.transform);
-
-
+                //printPlaneID.PrintMessage("Transform of anchor:" + playAreaAnchor.transform.position);
+                origin = Instantiate(cubeTest, playAreaAnchor.transform);
+                //mapCreator.InitialiseMap(origin);
+                mapCreator.testPass("boogie");
+                playAreaSelected = true;
 
             }
-
-
         }
-
     }
 
      void AttachAnchor(ARAnchorManager arAnchorManager, ARPlane plane, Pose pose)
@@ -98,24 +97,6 @@ public class PlaneSelector : MonoBehaviour
 
     }
 
-    public void OnTrackablesChanged(ARTrackablesChangedEventArgs<ARAnchor> changes)
-    {
-        foreach (var anchor in changes.added)
-        {
-            printPlaneID.PrintMessage("AnchorID: " + anchor.trackableId + "Anchor Position: " + anchor.transform.position);
-
-        }
-
-        foreach (var anchor in changes.updated)
-        {
-            printPlaneID.PrintMessage("AnchorID: " + anchor.trackableId + "Anchor Position Updated: " + anchor.transform.position);
-        }
-
-        foreach (var anchor in changes.removed)
-        {
-            printPlaneID.PrintMessage("AnchorID Removed");
-        }
-    }
 
 
 }

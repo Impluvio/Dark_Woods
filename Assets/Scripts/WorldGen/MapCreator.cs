@@ -16,7 +16,7 @@ public class MapCreator : MonoBehaviour
     public PrintPlaneID printPlaneID;
 
     public ARAnchorManager anchorManager;
-    public ARAnchor worldOrigin { get; set; }
+    public GameObject worldOrigin { get; set; }
 
     [Range(10, 200)] public int mapSize = 10; // sets grid size
     GameTile[,] mapGrid;                // stores instances of the gameTile asset
@@ -28,13 +28,30 @@ public class MapCreator : MonoBehaviour
         printPlaneID = GetComponent<PrintPlaneID>();
     }
 
-    public void InitialiseMap(ARAnchor anchor)
+    public void InitialiseMap(GameObject origin)
     {
-        worldOrigin = anchor;
-        setGrid(mapSize);
-        StartCoroutine(DelayedUpdate());
+        //if (origin == null)
+        //{
+        //    Debug.LogError("InitialiseMap was called with a null origin!");
+        //    return;
+        //}
+
+        //worldOrigin = origin;
+        //printPlaneID.PrintMessage(worldOrigin.transform.position.ToString());
+
+        //worldOrigin = origin;
+
+        //printPlaneID.PrintMessage(worldOrigin.transform.position.ToString());
+        //setGrid(mapSize);
+        //StartCoroutine(DelayedUpdate());
         //updateMap();
     }
+
+    public void testPass (String message)
+    {
+        Debug.Log(message);
+    }
+
 
     private void setGrid(int sizeOfMap)
     {
