@@ -15,12 +15,15 @@ public class MapCreator : MonoBehaviour
     public SetTilePrefab setTilePrefab;
     public PrintPlaneID printPlaneID;
 
-    public ARAnchorManager anchorManager; // is this required?
+    public ARAnchorManager anchorManager;                   // is this required?
     public ARAnchor origin;
 
-    [SerializeField] private GameObject gridManagerPrefab; //takes the prefab parent of the grid
-    private GameObject atlas; //
-    private GameObject baseTile; 
+    [Tooltip("Empty game object to contain all grid tiles")] 
+    [SerializeField] private GameObject gridManagerPrefab;  //takes the prefab parent of the grid
+
+    private GameObject atlas;                               //this is the game object that is set to the AR Anchor
+    [Tooltip("basic tile prefab goes here")]    
+    private GameObject baseTile;                            //this is the tile prefab used in the update map function 
 
     [Range(10, 400)] public int mapSize = 10;   // sets grid size
     GameTile[,] mapGrid;                        // stores instances of the gameTile asset
@@ -34,7 +37,7 @@ public class MapCreator : MonoBehaviour
 
     public void InitialiseMap(TrackableId playAreaID)
     {
-        Debug.Log(playAreaID.ToString());
+        // Debug.Log(playAreaID.ToString());
         ARAnchor origin = anchorManager.GetAnchor(playAreaID);
         atlas = Instantiate(gridManagerPrefab, origin.transform); //sets the parent for the grid/map.
         setGrid(mapSize);
@@ -75,16 +78,27 @@ public class MapCreator : MonoBehaviour
     public void updateMap()
     {
         //printPlaneID.PrintMessage(worldOrigin.transform.position);
+
+        // here we were deciding whether to put a ref to the atlas, and attach the gameobjects that represent the tiles below. 
+
+
         foreach (GameTile gameTile in mapGrid)
         {
-            Vector3 AdjustedCoordinates = new Vector3(gameTile.tilePosition.x / 10, 0, gameTile.tilePosition.y / 10);
-            Debug.Log($"tile poisiton: {AdjustedCoordinates.ToString()}");
-            
-            Instantiate(atlas, AdjustedCoordinates, Quaternion.identity);
+            Vector3 rawCoordinates = new Vector3(gameTile.tilePosition.x, 0, gameTile.tilePosition.y);
+
+            Vector3 decimatedCoordinates = new Vector3(rawCoordinates.x / 10, 0, rawCoordinates.y / 10);
+
+
+
+
+            //Vector3 AdjustedCoordinates = new Vector3(gameTile.tilePosition.x / 10, 0, gameTile.tilePosition.y / 10);
+            //Debug.Log($"tile poisiton: {AdjustedCoordinates.ToString()}");
+
+            //Instantiate(atlas, AdjustedCoordinates, Quaternion.identity);
         }
     }
 
-    
+
 
 
 
