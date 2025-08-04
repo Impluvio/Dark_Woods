@@ -23,7 +23,7 @@ public class MapCreator : MonoBehaviour
 
     private GameObject atlas;                               //this is the game object that is set to the AR Anchor
     [Tooltip("basic tile prefab goes here")]    
-    private GameObject baseTile;                            //this is the tile prefab used in the update map function 
+    public GameObject baseTile;                            //this is the tile prefab used in the update map function 
 
     [Range(10, 400)] public int mapSize = 10;   // sets grid size
     GameTile[,] mapGrid;                        // stores instances of the gameTile asset
@@ -80,15 +80,16 @@ public class MapCreator : MonoBehaviour
         //printPlaneID.PrintMessage(worldOrigin.transform.position);
 
         // here we were deciding whether to put a ref to the atlas, and attach the gameobjects that represent the tiles below. 
+        Vector3 mapOrigin = atlas.transform.position;
 
 
         foreach (GameTile gameTile in mapGrid)
         {
             Vector3 rawCoordinates = new Vector3(gameTile.tilePosition.x, 0, gameTile.tilePosition.y);
-
             Vector3 decimatedCoordinates = new Vector3(rawCoordinates.x / 10, 0, rawCoordinates.y / 10);
+            Vector3 adjustedCoordinates = new Vector3(decimatedCoordinates.x + mapOrigin.x, 0, decimatedCoordinates.y + mapOrigin.y);
 
-
+            Instantiate(baseTile, adjustedCoordinates, Quaternion.identity); 
 
 
             //Vector3 AdjustedCoordinates = new Vector3(gameTile.tilePosition.x / 10, 0, gameTile.tilePosition.y / 10);
