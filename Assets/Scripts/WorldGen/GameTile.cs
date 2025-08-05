@@ -3,9 +3,9 @@ using UnityEngine;
 public class GameTile
 {
     public string name;
-    public GameTile[] tileneighbours;
+    public GameTile[] tileNeighbours { get; set; } //should probably be get set. 
     public Vector3Int tilePosition;
-    public GameObject tilePrefab {get; set; }
+    public GameObject tilePrefab { get; set; }
 
     public GameTile(int xCoordinate, int zCoordinate)
     {

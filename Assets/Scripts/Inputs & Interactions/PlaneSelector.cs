@@ -83,6 +83,10 @@ public class PlaneSelector : MonoBehaviour
                 mapCreator.InitialiseMap(playAreaID);
                 playAreaSelected = true;
 
+                //Todo: turn off (destroy) planes, once anchor and grid is established. 
+                //Add confirm play area rule so that users can instantiate grid elsewhere. 
+                
+
             }
         }
     }

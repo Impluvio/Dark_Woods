@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
 
@@ -37,21 +38,20 @@ public class MapCreator : MonoBehaviour
 
     public void InitialiseMap(TrackableId playAreaID)
     {
-        // Debug.Log(playAreaID.ToString());
         ARAnchor origin = anchorManager.GetAnchor(playAreaID);
         atlas = Instantiate(gridManagerPrefab, origin.transform); //sets the parent for the grid/map.
         setGrid(mapSize);
-        PopulateAtlas();
-        updateMap();
+        setTileNeighbours();
+        testNeighbours();
+        //PopulateAtlas();
+        //updateMap();
 
 
-        //printPlaneID.PrintMessage(worldOrigin.transform.position.ToString());
-        //
-
+        
 
     }
 
- 
+   
 
     private void setGrid(int sizeOfMap)
     {
@@ -65,20 +65,85 @@ public class MapCreator : MonoBehaviour
                 string tileName = $"[{i},{j}]";
                 newTileInstance.name = tileName;
                 mapGrid[i, j] = newTileInstance;
-                setTilePrefab.setPrefabForTile(newTileInstance); // this needs to instantiate acounting for the anchor position.
+                setTilePrefab.setPrefabForTile(newTileInstance); 
                 Debug.Log("tile created: " + tileName);
             }
         }
 
     }
 
-    public void updateMap()
+    private void setTileNeighbours() //TO DO: Revisit this.
     {
+        int mapExtent = mapSize; // grid is always square, so only one var to ref height / width.
         
 
-        // here we were deciding whether to put a ref to the atlas, and attach the gameobjects that represent the tiles below. 
-        Vector3 mapOrigin = atlas.transform.position;
+        for (int i = 0; i < mapExtent; i++)
+        {
+            for (int j = 0; j < mapExtent; j++)
+            {
+                GameTile[] neighbours = new GameTile[4];
 
+                if (i + 1 >= 0 && i + 1 < mapExtent && j >= 0 && j < mapExtent) //check tile up from present tile
+                {
+                    neighbours[0] = mapGrid[i + 1, j];
+                }
+                else { }
+                if (i >= 0 && i < mapExtent && j + 1 >= 0 && j + 1 < mapExtent) //check tile right from present tile
+                {
+                    neighbours[1] = mapGrid[i, j + 1];
+                }
+                else { }
+                if (i - 1 >= 0 && i < mapExtent && j >= 0 && j < mapExtent) //check tile down from present tile
+                {
+                    neighbours[2] = mapGrid[i - 1, j];
+                }
+                else { }
+                if (i >= 0 && i < mapExtent && j - 1 >= 0 && j - 1 < mapExtent) //check tile left from present tile
+                {
+                    neighbours[3] = mapGrid[i, j - 1];
+                }
+                else { }
+
+                GameTile currentTile = mapGrid[i, j];
+                currentTile.tileNeighbours = neighbours;
+            }
+        }
+    }
+
+    private void testNeighbours()
+    {
+        for (int i = 0; i < mapSize; i++)
+        {
+            for (int j = 0; j < mapSize; j++)
+            {
+                Debug.Log($"tile {mapGrid[i, j]} has neighbours: ");
+                int counter = 0;
+                foreach (GameTile neighbour in  mapGrid[i, j].tileNeighbours)
+                {
+                    if (neighbour != null)
+                    {
+                        Debug.Log($"neighbour {counter} " + neighbour.name);
+                        counter++;
+                    }
+                    else { }
+                    
+                }
+            }
+
+
+
+        }
+    }
+
+
+
+    public void updateMap()
+    {
+        // Todo: child grid to Anchor (then make the grid local space)
+        // Look at offset as anchor and plane appear higher in simulation than expected.  
+
+
+        Vector3 mapOrigin = atlas.transform.position;
 
         foreach (GameTile gameTile in mapGrid)
         {
@@ -87,9 +152,6 @@ public class MapCreator : MonoBehaviour
             Vector3 adjustedCoordinates = new Vector3(decimatedCoordinates.x + mapOrigin.x, 0.1f, decimatedCoordinates.z + mapOrigin.z);
 
             Instantiate(baseTile, adjustedCoordinates, Quaternion.identity);
-
-
-          
         }
 
        
