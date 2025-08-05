@@ -761,6 +761,7 @@ MonoBehaviour:
   origin: {fileID: 0}
   gridManagerPrefab: {fileID: 93081633731965757, guid: b16224814a7abe044a7ed69c01a97723,
     type: 3}
+  baseTile: {fileID: 93081633731965757, guid: b16224814a7abe044a7ed69c01a97723, type: 3}
   mapSize: 12
 --- !u!4 &1676990649
 Transform:

@@ -41,7 +41,7 @@ public class MapCreator : MonoBehaviour
         ARAnchor origin = anchorManager.GetAnchor(playAreaID);
         atlas = Instantiate(gridManagerPrefab, origin.transform); //sets the parent for the grid/map.
         setGrid(mapSize);
-        PopulateAtlas(atlas);
+        PopulateAtlas();
         updateMap();
 
 
@@ -51,10 +51,7 @@ public class MapCreator : MonoBehaviour
 
     }
 
-    private void PopulateAtlas(GameObject atlas)
-    {
-        
-    }
+ 
 
     private void setGrid(int sizeOfMap)
     {
@@ -77,7 +74,7 @@ public class MapCreator : MonoBehaviour
 
     public void updateMap()
     {
-        //printPlaneID.PrintMessage(worldOrigin.transform.position);
+        
 
         // here we were deciding whether to put a ref to the atlas, and attach the gameobjects that represent the tiles below. 
         Vector3 mapOrigin = atlas.transform.position;
@@ -85,21 +82,26 @@ public class MapCreator : MonoBehaviour
 
         foreach (GameTile gameTile in mapGrid)
         {
-            Vector3 rawCoordinates = new Vector3(gameTile.tilePosition.x, 0, gameTile.tilePosition.y);
-            Vector3 decimatedCoordinates = new Vector3(rawCoordinates.x / 10, 0, rawCoordinates.y / 10);
-            Vector3 adjustedCoordinates = new Vector3(decimatedCoordinates.x + mapOrigin.x, 0, decimatedCoordinates.y + mapOrigin.y);
+            Vector3 rawCoordinates = new Vector3(gameTile.tilePosition.x, 0, gameTile.tilePosition.z);
+            Vector3 decimatedCoordinates = new Vector3(rawCoordinates.x / 10, 0, rawCoordinates.z / 10);
+            Vector3 adjustedCoordinates = new Vector3(decimatedCoordinates.x + mapOrigin.x, 0.1f, decimatedCoordinates.z + mapOrigin.z);
 
-            Instantiate(baseTile, adjustedCoordinates, Quaternion.identity); 
+            Instantiate(baseTile, adjustedCoordinates, Quaternion.identity);
 
 
-            //Vector3 AdjustedCoordinates = new Vector3(gameTile.tilePosition.x / 10, 0, gameTile.tilePosition.y / 10);
-            //Debug.Log($"tile poisiton: {AdjustedCoordinates.ToString()}");
-
-            //Instantiate(atlas, AdjustedCoordinates, Quaternion.identity);
+          
         }
+
+       
     }
 
-
+    private void PopulateAtlas()  //GameObject atlas
+    {
+        foreach (GameTile gameTile in mapGrid)
+        {
+            Debug.Log("tilePosition is set to: " + gameTile.tilePosition);
+        }
+    }
 
 
 

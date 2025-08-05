@@ -7,9 +7,9 @@ public class GameTile
     public Vector3Int tilePosition;
     public GameObject tilePrefab {get; set; }
 
-    public GameTile(int xCoordinate, int yCoordinate)
+    public GameTile(int xCoordinate, int zCoordinate)
     {
-        tilePosition = new Vector3Int(xCoordinate, yCoordinate, 0); // this needs to relate to  the 
+        tilePosition = new Vector3Int(xCoordinate, 0, zCoordinate); // this needs to be related to the local space of ar anchor
     }
 
 }
@@ -18,6 +18,6 @@ public class GameTile
 
 
 
-//add constructor
+
 
 //add method to select from the prefab manager
