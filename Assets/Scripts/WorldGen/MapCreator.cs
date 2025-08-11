@@ -44,14 +44,12 @@ public class MapCreator : MonoBehaviour
         setTileNeighbours();
         testNeighbours();
         //PopulateAtlas();
-        //updateMap();
+        updateMap();
 
 
         
 
     }
-
-   
 
     private void setGrid(int sizeOfMap)
     {
@@ -72,7 +70,7 @@ public class MapCreator : MonoBehaviour
 
     }
 
-    private void setTileNeighbours() //TO DO: Revisit this.
+    private void setTileNeighbours() 
     {
         int mapExtent = mapSize; // grid is always square, so only one var to ref height / width.
         
@@ -110,13 +108,37 @@ public class MapCreator : MonoBehaviour
         }
     }
 
+    private void randomWalker(GameTile startTile, int stepNo, int walkerNo) // add a param that is tile type.
+    {
+       
+        GameTile tileToCheck = startTile;
+       
+        while (stepNo > 0)
+        {
+            int randomDirection = UnityEngine.Random.Range(0, 3);
+            GameTile tileNeighbour = tileToCheck.tileNeighbours[randomDirection];
+
+            if (tileNeighbour != null)
+            {
+                //flip tile state - either using an array of tiles or using a switch within the tile class
+                tileToCheck = tileNeighbour;
+                stepNo--;
+            }
+            else
+            {
+                randomDirection = UnityEngine.Random.Range(0, 3);
+            }
+  
+        }
+    }
+
     private void testNeighbours()
     {
         for (int i = 0; i < mapSize; i++)
         {
             for (int j = 0; j < mapSize; j++)
             {
-                Debug.Log($"tile {mapGrid[i, j]} has neighbours: ");
+                Debug.Log($"tile {mapGrid[i, j].name} has neighbours: ");
                 int counter = 0;
                 foreach (GameTile neighbour in  mapGrid[i, j].tileNeighbours)
                 {

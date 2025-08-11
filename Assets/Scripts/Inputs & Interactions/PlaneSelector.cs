@@ -82,7 +82,7 @@ public class PlaneSelector : MonoBehaviour
                 TrackableId playAreaID = playAreaAnchor.trackableId;
                 mapCreator.InitialiseMap(playAreaID);
                 playAreaSelected = true;
-
+                ConfirmPlane();
                 //Todo: turn off (destroy) planes, once anchor and grid is established. 
                 //Add confirm play area rule so that users can instantiate grid elsewhere. 
                 
@@ -91,7 +91,12 @@ public class PlaneSelector : MonoBehaviour
         }
     }
 
-     void AttachAnchor(ARAnchorManager arAnchorManager, ARPlane plane, Pose pose)
+    private void ConfirmPlane()
+    {
+        //call method on Ui script.
+    }
+
+    void AttachAnchor(ARAnchorManager arAnchorManager, ARPlane plane, Pose pose)
     {
         if (arAnchorManager.descriptor.supportsTrackableAttachments)
         {
