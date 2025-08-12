@@ -8,7 +8,7 @@ using UnityEngine.XR.ARSubsystems;
 
 public class PlaneSelector : MonoBehaviour
 {
-    
+
     public ARRaycastManager rayCastManager;
     public ARPlaneManager planeManager;
     public ARAnchorManager anchorManager;
@@ -19,16 +19,18 @@ public class PlaneSelector : MonoBehaviour
 
     private PrintPlaneID printPlaneID;
     public MapCreator mapCreator;
+    public UiManager uiManager;
 
     private bool playAreaSelected = false;
 
     private List<ARRaycastHit> hits = new();
 
-    
-    public GameObject origin { get; set; } 
+
+    public GameObject origin { get; set; }
 
     private void Awake()
     {
+        //uiManager = GetComponent<UiManager>();
         printPlaneID = GetComponent<PrintPlaneID>();
         tapAction = new InputAction(type: InputActionType.PassThrough);
         tapAction.AddBinding("<Touchscreen>/primaryTouch/press");
@@ -82,18 +84,13 @@ public class PlaneSelector : MonoBehaviour
                 TrackableId playAreaID = playAreaAnchor.trackableId;
                 mapCreator.InitialiseMap(playAreaID);
                 playAreaSelected = true;
-                ConfirmPlane();
-                //Todo: turn off (destroy) planes, once anchor and grid is established. 
+                displayQuery(true);
+                //Todo: turn off planes, once anchor and grid is established. 
                 //Add confirm play area rule so that users can instantiate grid elsewhere. 
-                
+
 
             }
         }
-    }
-
-    private void ConfirmPlane()
-    {
-        //call method on Ui script.
     }
 
     void AttachAnchor(ARAnchorManager arAnchorManager, ARPlane plane, Pose pose)
@@ -101,10 +98,33 @@ public class PlaneSelector : MonoBehaviour
         if (arAnchorManager.descriptor.supportsTrackableAttachments)
         {
             playAreaAnchor = arAnchorManager.AttachAnchor(plane, pose);
-            
+
         }
     }
 
+    private void displayQuery(bool turnOn)
+    {
+        uiManager.displayQueryPlacement(turnOn);
+
+    }
+
+    public void setPlayArea(bool areaSet)
+    {
+        if (!areaSet)
+        {
+            
+            // set playAreaSelected to false
+            // cull map
+            // killpopup
+            displayQuery(false);
+
+        }
+        else
+        {
+            Debug.Log("area selected");
+            //kill popup 
+        }
+    }
 
 
 }
