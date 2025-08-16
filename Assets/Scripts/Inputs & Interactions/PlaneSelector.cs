@@ -16,10 +16,12 @@ public class PlaneSelector : MonoBehaviour
     private InputAction tapAction;
     public Camera arCamera;
     private ARAnchor playAreaAnchor;
+    [SerializeField] private GameObject Marker;
+    private GameObject liveMarker;
 
-    private PrintPlaneID printPlaneID;
     public MapCreator mapCreator;
     public UiManager uiManager;
+    public TrackableId playAreaID;
 
     private bool playAreaSelected = false;
 
@@ -30,8 +32,6 @@ public class PlaneSelector : MonoBehaviour
 
     private void Awake()
     {
-        //uiManager = GetComponent<UiManager>();
-        printPlaneID = GetComponent<PrintPlaneID>();
         tapAction = new InputAction(type: InputActionType.PassThrough);
         tapAction.AddBinding("<Touchscreen>/primaryTouch/press");
         tapAction.AddBinding("<Mouse>/leftButton");
@@ -80,13 +80,12 @@ public class PlaneSelector : MonoBehaviour
                 Pose centerPose = new Pose(worldCentre, plane.transform.rotation);
 
                 AttachAnchor(anchorManager, plane, centerPose);
-                //printPlaneID.PrintMessage("Transform of anchor:" + playAreaAnchor.transform.position);
-                TrackableId playAreaID = playAreaAnchor.trackableId;
-                mapCreator.InitialiseMap(playAreaID);
-                playAreaSelected = true;
-                displayQuery(true);
-                //Todo: turn off planes, once anchor and grid is established. 
-                //Add confirm play area rule so that users can instantiate grid elsewhere. 
+                            //printPlaneID.PrintMessage("Transform of anchor:" + playAreaAnchor.transform.position);
+                playAreaID = playAreaAnchor.trackableId;
+                liveMarker = Instantiate(Marker, playAreaAnchor.transform); // this works but can be repeated ad infinitum - needs to be once
+                confirmGamePlayLocation(true);
+                            //Todo: turn off planes, once anchor and grid is established. 
+                            //Add confirm play area rule so that users can instantiate grid elsewhere. 
 
 
             }
@@ -102,7 +101,7 @@ public class PlaneSelector : MonoBehaviour
         }
     }
 
-    private void displayQuery(bool turnOn)
+    private void confirmGamePlayLocation(bool turnOn)
     {
         uiManager.displayQueryPlacement(turnOn);
 
@@ -112,19 +111,29 @@ public class PlaneSelector : MonoBehaviour
     {
         if (!areaSet)
         {
-            
-            // set playAreaSelected to false
-            // cull map
-            // killpopup
-            displayQuery(false);
+            Destroy(liveMarker);
+            confirmGamePlayLocation(false);
+
 
         }
         else
         {
+            mapCreator.InitialiseMap(playAreaID);
             Debug.Log("area selected");
-            //kill popup 
+            confirmGamePlayLocation(false);
+            playAreaSelected = true;
+            turnOffPlanes();
         }
     }
 
+    public void turnOffPlanes()
+    {
+        foreach (var plane in planeManager.trackables)
+        {
+            plane.gameObject.SetActive(false);
+        }
+
+        planeManager.requestedDetectionMode = PlaneDetectionMode.None;
+    }
 
 }

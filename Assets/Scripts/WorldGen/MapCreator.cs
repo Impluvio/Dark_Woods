@@ -157,8 +157,6 @@ public class MapCreator : MonoBehaviour
         }
     }
 
-
-
     public void updateMap()
     {
         // Todo: child grid to Anchor (then make the grid local space)
@@ -179,13 +177,7 @@ public class MapCreator : MonoBehaviour
        
     }
 
-    private void PopulateAtlas()  //GameObject atlas
-    {
-        foreach (GameTile gameTile in mapGrid)
-        {
-            Debug.Log("tilePosition is set to: " + gameTile.tilePosition);
-        }
-    }
+   
 
 
 

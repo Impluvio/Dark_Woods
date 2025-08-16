@@ -598,6 +598,7 @@ MonoBehaviour:
   planeManager: {fileID: 765040167}
   anchorManager: {fileID: 765040173}
   arCamera: {fileID: 2130083765}
+  Marker: {fileID: 4346620306302530569, guid: 6b33651522476c8489f34b2082854748, type: 3}
   mapCreator: {fileID: 1676990648}
   uiManager: {fileID: 1047299925}
 --- !u!114 &765040172
@@ -1079,7 +1080,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: No
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
