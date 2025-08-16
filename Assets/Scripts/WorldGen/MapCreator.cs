@@ -43,7 +43,6 @@ public class MapCreator : MonoBehaviour
         setGrid(mapSize);
         setTileNeighbours();
         testNeighbours();
-        //PopulateAtlas();
         updateMap();
 
 

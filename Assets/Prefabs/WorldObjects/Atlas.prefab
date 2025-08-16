@@ -45,6 +45,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: Blank Tile
       objectReference: {fileID: 0}
+    - target: {fileID: 5437750305044057155, guid: bd9b1b53beb96fc4d824e112ee90d7df,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5437750305044057155, guid: bd9b1b53beb96fc4d824e112ee90d7df,
+        type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: 4df965b84c817b04f885646cde93033f, type: 2}
     - target: {fileID: 6643177465680194662, guid: bd9b1b53beb96fc4d824e112ee90d7df,
         type: 3}
       propertyPath: m_LocalPosition.x

@@ -26,8 +26,6 @@ public class PlaneSelector : MonoBehaviour
     private bool playAreaSelected = false;
 
     private List<ARRaycastHit> hits = new();
-
-
     public GameObject origin { get; set; }
 
     private void Awake()
