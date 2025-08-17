@@ -494,6 +494,7 @@ GameObject:
   - component: {fileID: 765040168}
   - component: {fileID: 765040171}
   - component: {fileID: 765040172}
+  - component: {fileID: 765040174}
   m_Layer: 0
   m_Name: XR Origin (Mobile AR)
   m_TagString: Untagged
@@ -597,10 +598,9 @@ MonoBehaviour:
   rayCastManager: {fileID: 765040166}
   planeManager: {fileID: 765040167}
   anchorManager: {fileID: 765040173}
-  arCamera: {fileID: 2130083765}
-  Marker: {fileID: 4346620306302530569, guid: 6b33651522476c8489f34b2082854748, type: 3}
   mapCreator: {fileID: 1676990648}
   uiManager: {fileID: 1047299925}
+  Marker: {fileID: 4346620306302530569, guid: 6b33651522476c8489f34b2082854748, type: 3}
 --- !u!114 &765040172
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -630,6 +630,44 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls: []
   m_AnchorPrefab: {fileID: 0}
+--- !u!114 &765040174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 765040165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87b0b7c073ee995479b3c4ac06ca8548, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arCamera: {fileID: 2130083765}
+  tapAction:
+    m_Name: Tap
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: b9a463a3-eca8-43ab-bdb1-65713e36d98e
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 1b7edea9-a99c-4664-af79-d671100426fe
+      m_Path: <Touchscreen>/Press
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Tap
+      m_Flags: 0
+    - m_Name: 
+      m_Id: 6e2b2606-57b2-4b7b-98e5-68270fedbc6d
+      m_Path: <Mouse>/leftButton
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Tap
+      m_Flags: 0
+    m_Flags: 0
 --- !u!1 &833337051
 GameObject:
   m_ObjectHideFlags: 0
